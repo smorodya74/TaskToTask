@@ -6,10 +6,20 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskToTask.Domain", "TaskToTask.Domain\TaskToTask.Domain.csproj", "{0069FFEC-AE0F-43BF-85DC-2361C16754E3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskToTask.DataAccess", "TaskToTask.DataAccess\TaskToTask.DataAccess.csproj", "{954796AE-C04E-434A-9E8F-F92D9EB7ACF3}"
+	ProjectSection(ProjectDependencies) = postProject
+		{79982DEA-C66E-4AED-B37C-55BD539A6B06} = {79982DEA-C66E-4AED-B37C-55BD539A6B06}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskToTask.Application", "TaskToTask.Application\TaskToTask.Application.csproj", "{79982DEA-C66E-4AED-B37C-55BD539A6B06}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0069FFEC-AE0F-43BF-85DC-2361C16754E3} = {0069FFEC-AE0F-43BF-85DC-2361C16754E3}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskToTask.WebAPI", "TaskToTask.WebAPI\TaskToTask.WebAPI.csproj", "{F363036B-8045-4E24-84A4-600921DBC128}"
+	ProjectSection(ProjectDependencies) = postProject
+		{79982DEA-C66E-4AED-B37C-55BD539A6B06} = {79982DEA-C66E-4AED-B37C-55BD539A6B06}
+		{954796AE-C04E-434A-9E8F-F92D9EB7ACF3} = {954796AE-C04E-434A-9E8F-F92D9EB7ACF3}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
