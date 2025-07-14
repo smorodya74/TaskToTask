@@ -5,5 +5,4 @@
         User,
         Admin
     }
-    
 }
