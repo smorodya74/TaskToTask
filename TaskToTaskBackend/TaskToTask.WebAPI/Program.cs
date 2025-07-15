@@ -1,11 +1,14 @@
+using Microsoft.AspNetCore.CookiePolicy;
 using TaskToTask.Application;
 using TaskToTask.Infrastructure;
+using TaskToTask.WebAPI;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services
     .AddApplication()
-    .AddInfrastructure(builder.Configuration);
+    .AddInfrastructure(builder.Configuration)
+    .AddApiAuthentication(builder.Configuration);
 
 builder.Services.AddControllers();
 
@@ -19,11 +22,20 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI(c =>
     {
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "TaskToTask API V1");
-        c.RoutePrefix = string.Empty; // Чтобы UI открывался по корню
+        c.RoutePrefix = string.Empty;
     });
 }
 
 app.UseHttpsRedirection();
+
+app.UseCookiePolicy(new CookiePolicyOptions
+{
+    MinimumSameSitePolicy = SameSiteMode.Strict,
+    HttpOnly = HttpOnlyPolicy.Always,
+    Secure = CookieSecurePolicy.Always
+
+});
+
 app.UseAuthorization();
 app.MapControllers();
 app.Run();

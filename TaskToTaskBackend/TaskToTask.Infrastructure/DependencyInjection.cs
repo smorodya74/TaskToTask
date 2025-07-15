@@ -18,11 +18,19 @@ namespace TaskToTask.Infrastructure
             services.AddDbContext<TaskToTaskDbContext>(options =>
                 options.UseNpgsql(configuration.GetConnectionString("TaskToTaskDbContext")));
 
+            // Регистрируем JWT-настройки
+            services.Configure<JwtOptions>(configuration.GetSection(nameof(JwtOptions)));
+
+            // Регистрация UserContext
+            services.AddHttpContextAccessor();
+            services.AddScoped<IUserContext, UserContext>();
+
             // Регистрируем репозитории
             services.AddScoped<IUsersRepository, UsersRepository>();
 
             // Регистрируем вспомогательные сервисы
             services.AddScoped<IPasswordHasher, PasswordHasher>();
+            services.AddScoped<IJwtTokenService, JwtTokenService>();
 
             return services;
         }

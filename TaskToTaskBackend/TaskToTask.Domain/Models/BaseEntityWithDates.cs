@@ -12,12 +12,12 @@
         /// <summary>
         /// Дата и время создания [dd.MM.yyyy HH:mm]
         /// </summary>
-        public DateTime? CreatedAt { get; }
+        public DateTime CreatedAt { get; }
         
         /// <summary>
         /// Дата и время редактирования [dd.MM.yyyy HH:mm]
         /// </summary>
-        public DateTime? UpdatedAt { get; private set; }
+        public DateTime UpdatedAt { get; private set; }
 
         /// <summary>
         /// Обновить дату изменения

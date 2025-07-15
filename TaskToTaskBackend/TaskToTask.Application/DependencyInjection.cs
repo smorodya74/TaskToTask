@@ -2,7 +2,7 @@
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
-using TaskToTask.Application.Common.Behaviors;
+using TaskToTask.Application.Behaviors;
 
 namespace TaskToTask.Application
 {

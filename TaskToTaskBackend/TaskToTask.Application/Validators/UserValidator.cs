@@ -1,10 +1,11 @@
 ﻿using FluentValidation;
+using TaskToTask.Application.Commands.Users.RegisterUser;
 
-namespace TaskToTask.Application.Commands.Users.RegisterUser
+namespace TaskToTask.Application.Validators
 {
-    public class RegisterUserValidator : AbstractValidator<RegisterUserCommand>
+    public class UserValidator : AbstractValidator<RegisterUserCommand>
     {
-        public RegisterUserValidator()
+        public UserValidator()
         {
             RuleFor(user => user.Username)
                 .NotEmpty().WithMessage("Имя пользователя обязательное поле.")

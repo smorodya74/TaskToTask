@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using TaskToTask.Application.Interfaces.Auth;
 using TaskToTask.Application.Interfaces.Repositories;
+using TaskToTask.Domain.Exceptions;
 using TaskToTask.Domain.Models;
 
 namespace TaskToTask.Application.Commands.Users.RegisterUser
@@ -20,6 +21,14 @@ namespace TaskToTask.Application.Commands.Users.RegisterUser
 
         public async Task<Guid> Handle(RegisterUserCommand command, CancellationToken ct)
         {
+            var exists = await _usersRepository.ExistsByEmailAsync(command.Email, ct);
+
+            if (exists) throw new EmailAlreadyExistsException(command.Email);
+
+            exists = await _usersRepository.ExistsByUsernameAsync(command.Username, ct);
+
+            if (exists) throw new UsernameAlreadyExistsException(command.Username);
+
             var passwordHash = _passwordHasher.GenerateHash(command.Password);
 
             var user = User.Create(

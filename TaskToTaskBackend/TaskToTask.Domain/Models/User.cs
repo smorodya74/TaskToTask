@@ -58,6 +58,18 @@ namespace TaskToTask.Domain.Models
                 DateTime.UtcNow);
         }
 
+        public static User LoadFromDb(
+            Guid id,
+            string username,
+            string email,
+            string passwordHash,
+            RoleType role,
+            DateTime createdAt,
+            DateTime updatedAt)
+        {
+            return new User(id, username, email, passwordHash, role, createdAt, updatedAt);
+        }
+
         public void ChangeEmail(string newEmail) 
             => Email = newEmail;
         public void ChangePasswordHash(string newHash) 

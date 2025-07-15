@@ -20,10 +20,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DTOs\Responses\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\TaskToTask.Application\TaskToTask.Application.csproj" />
     <ProjectReference Include="..\TaskToTask.DataAccess\TaskToTask.DAL.csproj" />
     <ProjectReference Include="..\TaskToTask.Infrastructure\TaskToTask.Infrastructure.csproj" />
