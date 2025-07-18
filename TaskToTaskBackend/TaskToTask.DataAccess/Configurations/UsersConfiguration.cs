@@ -18,6 +18,9 @@ namespace TaskToTask.DAL.Configurations
 
             builder.Property(u => u.Username)
                 .IsRequired();
+            
+            builder.HasIndex(u => u.Username)
+                .IsUnique();
 
             builder.Property(u => u.PasswordHash)
                 .IsRequired();

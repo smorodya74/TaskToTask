@@ -22,9 +22,9 @@
         /// <summary>
         /// Обновить дату изменения
         /// </summary>
-        public virtual void SetUpdateAt(DateTime updatedAt)
+        public virtual void Touch()
         {
-            UpdatedAt = updatedAt;
+            UpdatedAt = DateTime.UtcNow;
         }
     }
 }

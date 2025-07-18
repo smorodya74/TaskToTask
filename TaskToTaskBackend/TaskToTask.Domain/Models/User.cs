@@ -70,9 +70,16 @@ namespace TaskToTask.Domain.Models
             return new User(id, username, email, passwordHash, role, createdAt, updatedAt);
         }
 
-        public void ChangeEmail(string newEmail) 
-            => Email = newEmail;
-        public void ChangePasswordHash(string newHash) 
-            => PasswordHash = newHash;
+        public void ChangeEmail(string newEmail)
+        {
+            Email = newEmail;
+            Touch();
+        }
+
+        public void ChangePasswordHash(string newHash)
+        {
+            PasswordHash = newHash;
+            Touch();
+        }
     }
 }

@@ -8,24 +8,24 @@ namespace TaskToTask.Application.Commands.Users.RegisterUser
 {
     public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, Guid>
     {
-        private readonly IUsersRepository _usersRepository;
+        private readonly IUsersRepositoryForAuth _usersRepositoryForAuth;
         private readonly IPasswordHasher _passwordHasher;
 
         public RegisterUserCommandHandler(
-            IUsersRepository userRepository,
+            IUsersRepositoryForAuth userRepositoryForAuth,
             IPasswordHasher passwordHasher)
         {
-            _usersRepository = userRepository;
+            _usersRepositoryForAuth = userRepositoryForAuth;
             _passwordHasher = passwordHasher;
         }
 
         public async Task<Guid> Handle(RegisterUserCommand command, CancellationToken ct)
         {
-            var exists = await _usersRepository.ExistsByEmailAsync(command.Email, ct);
+            var exists = await _usersRepositoryForAuth.ExistsByEmailAsync(command.Email, ct);
 
             if (exists) throw new EmailAlreadyExistsException(command.Email);
 
-            exists = await _usersRepository.ExistsByUsernameAsync(command.Username, ct);
+            exists = await _usersRepositoryForAuth.ExistsByUsernameAsync(command.Username, ct);
 
             if (exists) throw new UsernameAlreadyExistsException(command.Username);
 
@@ -36,7 +36,7 @@ namespace TaskToTask.Application.Commands.Users.RegisterUser
                 command.Email,
                 passwordHash);
 
-            var id = await _usersRepository.AddAsync(user, ct);
+            var id = await _usersRepositoryForAuth.AddAsync(user, ct);
 
             return id;
         }

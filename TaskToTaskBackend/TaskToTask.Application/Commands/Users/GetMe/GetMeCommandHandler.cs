@@ -7,18 +7,16 @@ namespace TaskToTask.Application.Commands.Users.GetMe
 {
     public class GetMeCommandHandler : IRequestHandler<GetMeCommand, User>
     {
-        private readonly IUsersRepository _usersRepository;
-        private readonly IUserContext _userContext;
+        private readonly IUsersRepositoryForAuth _usersRepositoryForAuth;
 
-        public GetMeCommandHandler(IUsersRepository usersRepository, IUserContext userContext)
+        public GetMeCommandHandler(IUsersRepositoryForAuth usersRepositoryForAuth, IUserContext userContext)
         {
-            _usersRepository = usersRepository;
-            _userContext = userContext;
+            _usersRepositoryForAuth = usersRepositoryForAuth;
         }
 
         public async Task<User> Handle(GetMeCommand command, CancellationToken ct)
         {
-            var user = await _usersRepository.GetByIdAsync(_userContext.UserId, ct);
+            var user = await _usersRepositoryForAuth.GetByIdAsync(command.UserId, ct);
 
             return user;
         }

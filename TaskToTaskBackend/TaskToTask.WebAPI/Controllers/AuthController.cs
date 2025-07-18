@@ -3,7 +3,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TaskToTask.Application.Commands.Users.GetMe;
 using TaskToTask.Application.Commands.Users.LoginUser;
-using TaskToTask.Domain.Models;
+using TaskToTask.Application.Commands.Users.RegisterUser;
+using TaskToTask.Application.Interfaces.Auth;
 using TaskToTask.WebAPI.DTOs.Requests.Users;
 using TaskToTask.WebAPI.DTOs.Responses.Users;
 
@@ -11,15 +12,27 @@ namespace TaskToTask.WebAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class AuthController : ControllerBase
+    public class AuthController(IMediator mediator) : ControllerBase
     {
-        private readonly IMediator _mediator;
-
-        public AuthController(IMediator mediator)
+        private readonly IMediator _mediator = mediator;
+        
+        [HttpPost("register")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Register(
+            [FromBody] RegisterUserRequest dto,
+            CancellationToken ct)
         {
-            _mediator = mediator;
-        }
+            var id = await _mediator.Send(
+                new RegisterUserCommand(
+                    dto.Username, 
+                    dto.Email, 
+                    dto.Password, 
+                    dto.ConfirmPassword), ct);
 
+            return Ok(id);
+        }
+        
         [HttpPost("login")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -36,7 +49,7 @@ namespace TaskToTask.WebAPI.Controllers
         }
 
         [HttpPost("Logout")]
-        public async Task<IActionResult> Logout()
+        public IActionResult Logout()
         {
             Response.Cookies.Delete("session_token");
 
@@ -47,9 +60,11 @@ namespace TaskToTask.WebAPI.Controllers
         [HttpGet("me")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<GetMeUserResponse>> GetMe(CancellationToken ct)
+        public async Task<ActionResult<GetMeUserResponse>> GetMe(
+            [FromServices] IUserContext userContext,
+            CancellationToken ct)
         {
-            var user = await _mediator.Send(new GetMeCommand(), ct);
+            var user = await _mediator.Send(new GetMeCommand(userContext.UserId), ct);
 
             var userResponse = new GetMeUserResponse
             {

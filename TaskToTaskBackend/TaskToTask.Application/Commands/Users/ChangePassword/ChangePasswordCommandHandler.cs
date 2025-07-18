@@ -1,17 +1,18 @@
 ﻿using MediatR;
+using TaskToTask.Application.Commands.Users.UpdateUser;
 using TaskToTask.Application.Interfaces.Auth;
 using TaskToTask.Application.Interfaces.Repositories;
 
-namespace TaskToTask.Application.Commands.Users.UpdateUser
+namespace TaskToTask.Application.Commands.Users.ChangePassword
 {
     public class ChangePasswordCommandHandler : IRequestHandler<ChangePasswordCommand, string>
     {
-        private readonly IUsersRepository _usersRepository;
+        private readonly IUsersRepositoryForAuth _usersRepositoryForAuth;
         private readonly IPasswordHasher _passwordHasher;
 
-        public ChangePasswordCommandHandler(IUsersRepository repository, IPasswordHasher passwordHasher)
+        public ChangePasswordCommandHandler(IUsersRepositoryForAuth repositoryForAuth, IPasswordHasher passwordHasher)
         {
-            _usersRepository = repository;
+            _usersRepositoryForAuth = repositoryForAuth;
             _passwordHasher = passwordHasher;
         }
 
@@ -19,7 +20,9 @@ namespace TaskToTask.Application.Commands.Users.UpdateUser
         {
             var passwordHash = _passwordHasher.GenerateHash(command.NewPassword);
 
-            await _usersRepository.UpdateEmailAsync(command.UserId, passwordHash, ct);
+            // TODO: Дописать репозиторий, затем подключить к интерфейсу
+            
+            // await _usersRepositoryForAuth.UpdatePasswordAsync(command.UserId, passwordHash, ct);
 
             return "Пароль изменен";
         }
