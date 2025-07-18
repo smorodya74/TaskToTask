@@ -45,7 +45,7 @@ nunit-*.xml
 
 # dependencies
 .vs/
-tasktotaskfrontend/node_modules*
+**/node_modules*
 /.pnp
 .pnp.js
 .yarn/*
@@ -88,7 +88,9 @@ next-env.d.ts
 # Others
 ~$*
 *~
+*.user*
 CodeCoverage/
 LOCAL*
 .obsidian
 Excalidraw*
+**/.idea
