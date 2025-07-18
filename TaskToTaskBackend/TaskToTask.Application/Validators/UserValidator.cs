@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using TaskToTask.Application.Commands.Users.RegisterUser;
+using TaskToTask.Application.MediatR.Auth.Commands;
 
 namespace TaskToTask.Application.Validators
 {

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TaskToTask.Application.Interfaces.Repositories;
-using TaskToTask.DAL.DTO;
+using TaskToTask.Application.Models;
+using TaskToTask.Application.Models.Responses.Users;
 using TaskToTask.DAL.Entities;
 using TaskToTask.DAL.Mapping;
 using TaskToTask.Domain.Exceptions;
@@ -41,7 +42,7 @@ namespace TaskToTask.DAL.Repositories
         #endregion
         #region GET
 
-        public async Task<PageResult<UserEntity>> GetUsersPageAsync(
+        public async Task<UsersPageRepsonse<UserResponse>> GetUsersPageAsync(
             int page = 1,
             int pageSize = 10,
             string? search = null,
@@ -94,18 +95,16 @@ namespace TaskToTask.DAL.Repositories
             var users = await query
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
-                .Select(u => new UserEntity
-                {
-                    Id = u.Id,
-                    Username = u.Username,
-                    Email = u.Email,
-                    Role = u.Role,
-                    CreatedAt = u.CreatedAt,
-                    UpdatedAt = u.UpdatedAt
-                })
+                .Select(u => new UserResponse(
+                    u.Id.ToString(),
+                    u.Username,
+                    u.Email,
+                    u.Role,
+                    u.CreatedAt,
+                    u.UpdatedAt))
                 .ToListAsync(ct);
-
-            return new PageResult<UserEntity>(users, totalCount, page, pageSize);
+            
+            return new UsersPageRepsonse<UserResponse>(users, totalCount, page, pageSize);
         }
 
 

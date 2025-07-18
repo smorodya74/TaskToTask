@@ -1,12 +1,11 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using TaskToTask.Application.Commands.Users.GetMe;
-using TaskToTask.Application.Commands.Users.LoginUser;
-using TaskToTask.Application.Commands.Users.RegisterUser;
 using TaskToTask.Application.Interfaces.Auth;
-using TaskToTask.WebAPI.DTOs.Requests.Users;
-using TaskToTask.WebAPI.DTOs.Responses.Users;
+using TaskToTask.Application.MediatR.Auth.Commands;
+using TaskToTask.Application.MediatR.Auth.Queries;
+using TaskToTask.Application.Models.Responses.Users;
+using TaskToTask.WebAPI.DTO.Requests.Users;
 
 namespace TaskToTask.WebAPI.Controllers
 {
@@ -48,7 +47,7 @@ namespace TaskToTask.WebAPI.Controllers
             return Ok("Вход выполнен");
         }
 
-        [HttpPost("Logout")]
+        [HttpPost("logout")]
         public IActionResult Logout()
         {
             Response.Cookies.Delete("session_token");
@@ -60,21 +59,21 @@ namespace TaskToTask.WebAPI.Controllers
         [HttpGet("me")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<GetMeUserResponse>> GetMe(
+        public async Task<ActionResult<UserResponse>> GetMe(
             [FromServices] IUserContext userContext,
             CancellationToken ct)
         {
-            var user = await _mediator.Send(new GetMeCommand(userContext.UserId), ct);
+            var user = await _mediator.Send(new GetMeQuery(userContext.UserId), ct);
 
-            var userResponse = new GetMeUserResponse
-            {
-                UserId = user.Id.ToString(),
-                Username = user.Username,
-                UserEmail = user.Email,
-                UserRole = user.Role.ToString()
-            };
+            var userResponse = new UserResponse(
+                UserId: user.Id.ToString(),
+                Username: user.Username,
+                Email: user.Email,
+                Role: user.Role.ToString(),
+                CreatedAt: user.CreatedAt,
+                UpdatedAt: user.UpdatedAt);
 
-            return Ok(userResponse);
+            return Ok(userResponse);;
         }
     }
 }
