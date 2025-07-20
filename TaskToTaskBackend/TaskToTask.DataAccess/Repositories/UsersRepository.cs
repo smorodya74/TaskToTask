@@ -9,14 +9,10 @@ using TaskToTask.Domain.Models;
 
 namespace TaskToTask.DAL.Repositories
 {
-    public class UsersRepository : IUsersRepositoryForAuth, IUsersRepositoryForAdmin, IUsersRepositoryForUsers
+    public class UsersRepository(TaskToTaskDbContext context) 
+        : IUsersRepositoryForAuth, IUsersRepositoryForAdmin, IUsersRepositoryForUsers
     {
-        private readonly TaskToTaskDbContext _context;
-
-        public UsersRepository(TaskToTaskDbContext context)
-        {
-            _context = context;
-        }
+        private readonly TaskToTaskDbContext _context = context;
 
         #region CREATE
 
@@ -112,9 +108,8 @@ namespace TaskToTask.DAL.Repositories
         {
             var userEntity = await _context.Users
                 .AsNoTracking()
-                .FirstOrDefaultAsync(u => u.Id == id, ct);
-
-            if (userEntity == null) throw new NotFoundException(id.ToString());
+                .FirstOrDefaultAsync(u => u.Id == id, ct)
+                ?? throw new NotFoundException(id.ToString());
 
             var user = userEntity.ToDomain();
 
@@ -125,9 +120,8 @@ namespace TaskToTask.DAL.Repositories
         {
             var userEntity = await _context.Users
                 .AsNoTracking()
-                .FirstOrDefaultAsync(u => u.Email == email, ct);
-
-            if (userEntity == null) throw new NotFoundException(email);
+                .FirstOrDefaultAsync(u => u.Email == email, ct)
+                ?? throw new NotFoundException(email);
 
             var user = userEntity.ToDomain();
 
@@ -138,9 +132,8 @@ namespace TaskToTask.DAL.Repositories
         {
             var userEntity = await _context.Users
                 .AsNoTracking()
-                .FirstOrDefaultAsync(u => u.Username == username, ct);
-
-            if (userEntity == null) throw new NotFoundException(username);
+                .FirstOrDefaultAsync(u => u.Username == username, ct)
+                ?? throw new NotFoundException(username);
 
             var user = userEntity.ToDomain();
 
@@ -152,9 +145,7 @@ namespace TaskToTask.DAL.Repositories
             var userEntity = await _context.Users
                 .AsNoTracking()
                 .Where(u => u.Username == emailOrUsername || u.Email == emailOrUsername)
-                .FirstOrDefaultAsync(ct);
-
-            if (userEntity == null) throw new BadRequestForLoginException();
+                .FirstOrDefaultAsync(ct) ?? throw new BadRequestForLoginException();
 
             var user = userEntity.ToDomain();
 

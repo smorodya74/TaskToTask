@@ -6,6 +6,11 @@ namespace TaskToTask.DAL.Mapping
 {
     public static class UserMapper
     {
+        /// <summary>
+        /// Преобразует Сущность из БД в Domain-Модель 
+        /// </summary>
+        /// <param name="entity">Сущность из БД</param>
+        /// <returns>Domain-модель User user</returns>
         public static User ToDomain(this UserEntity entity)
         {
             return User.LoadFromDb(
@@ -18,6 +23,11 @@ namespace TaskToTask.DAL.Mapping
                 entity.UpdatedAt);
         }
 
+        /// <summary>
+        /// Преобразует Domain-модель в сущность БД
+        /// </summary>
+        /// <param name="domain">Domain-модель</param>
+        /// <returns>Бд-сущность UserEntity user</returns>
         public static UserEntity ToEntity(this User domain)
         {
             return new UserEntity

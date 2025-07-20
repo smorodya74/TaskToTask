@@ -11,22 +11,26 @@ namespace TaskToTask.DAL.Configurations
             builder.HasKey(u => u.Id);
 
             builder.Property(u => u.Email)
-                .IsRequired();
+                .IsRequired()
+                .HasMaxLength(254); // Согласно стандарта RFC-5321
 
             builder.HasIndex(u => u.Email)
                 .IsUnique();
 
             builder.Property(u => u.Username)
-                .IsRequired();
+                .IsRequired()
+                .HasMaxLength(64);
             
             builder.HasIndex(u => u.Username)
                 .IsUnique();
 
             builder.Property(u => u.PasswordHash)
-                .IsRequired();
+                .IsRequired()
+                .HasMaxLength(100);
 
             builder.Property(u => u.Role)
-                .IsRequired();
+                .IsRequired()
+                .HasMaxLength(16);
         }
     }
 }

@@ -18,7 +18,7 @@ namespace TaskToTask.Application.Validators
 
             RuleFor(user => user.Password)
                 .NotEmpty().WithMessage("Пароль не может быть пустым.")
-                .MinimumLength(8).WithMessage("Пароль должен содержать минимум 8 символов.")
+                .Length(8-254).WithMessage("Пароль должен содержать от 8 до 254 символов.")
                 .Matches("[A-Z]").WithMessage("Пароль должен содержать хотя бы одну заглавную букву (A-Z).")
                 .Matches("[a-z]").WithMessage("Пароль должен содержать хотя бы одну строчную букву (a-z).")
                 .Matches("[0-9]").WithMessage("Пароль должен содержать хотя бы одну цифру (0-9).")
