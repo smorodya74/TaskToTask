@@ -13,8 +13,6 @@ namespace TaskToTask.WebAPI.Controllers
     [Route("api/[controller]")]
     public class AuthController(IMediator mediator) : ControllerBase
     {
-        private readonly IMediator _mediator = mediator;
-        
         [HttpPost("register")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -22,7 +20,7 @@ namespace TaskToTask.WebAPI.Controllers
             [FromBody] RegisterUserRequest dto,
             CancellationToken ct)
         {
-            var id = await _mediator.Send(
+            var id = await mediator.Send(
                 new RegisterUserCommand(
                     dto.Username, 
                     dto.Email, 
@@ -37,7 +35,7 @@ namespace TaskToTask.WebAPI.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Login([FromBody] LoginUserRequest dto, CancellationToken ct)
         {
-            var token = await _mediator.Send(
+            var token = await mediator.Send(
                 new LoginUserCommand(
                     dto.UsernameOrEmail,
                     dto.Password), ct);
@@ -63,7 +61,7 @@ namespace TaskToTask.WebAPI.Controllers
             [FromServices] IUserContext userContext,
             CancellationToken ct)
         {
-            var user = await _mediator.Send(new GetMeQuery(userContext.UserId), ct);
+            var user = await mediator.Send(new GetMeQuery(userContext.UserId), ct);
 
             var userResponse = new UserResponse(
                 UserId: user.Id.ToString(),

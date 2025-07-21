@@ -1,6 +1,9 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using TaskToTask.Application.MediatR.Users.Commands;
 using TaskToTask.Application.MediatR.Users.Queries;
+using TaskToTask.Application.Models.Requests.Users;
 using TaskToTask.Application.Models.Responses.Users;
 
 namespace TaskToTask.WebAPI.Controllers
@@ -59,6 +62,43 @@ namespace TaskToTask.WebAPI.Controllers
             return Ok(userResponse);
         }
         
-        // TODO: написать методы changeEmail и changePassword
+        [HttpPut("{userId}/email")]
+        [Authorize]
+        public async Task<IActionResult> ChangeEmail(
+            [FromRoute] Guid userId, 
+            [FromBody] ChangeEmailRequest request, 
+            CancellationToken ct)
+        {
+            var resultMessage = await _mediator.Send(
+                new ChangeEmailCommand(userId, request.NewEmail), 
+                ct);
+
+            return Ok(new
+            {
+                Message = resultMessage,
+                UserId = userId,
+                NewEmail = request.NewEmail
+            });
+        }
+        
+        [HttpPut("{userId}/password")]
+        [Authorize]
+        public async Task<IActionResult> ChangePassword(
+            [FromRoute] Guid userId, 
+            [FromBody] ChangePasswordRequest request, 
+            CancellationToken ct)
+        {
+            var resultMessage = await _mediator.Send(
+                new ChangePasswordCommand(userId, request.NewPassword, request.ConfirmNewPassword), 
+                ct);
+
+            return Ok(new
+            {
+                Message = resultMessage,
+                UserId = userId
+            });
+            
+            // TODO: сделать валидацию полей
+        }
     }
 }

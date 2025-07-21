@@ -21,16 +21,7 @@ namespace TaskToTask.DAL.Repositories
 
         public async Task<Guid> AddAsync(User user, CancellationToken ct)
         {
-            var entity = new UserEntity
-            {
-                Id = user.Id,
-                Username = user.Username,
-                Email = user.Email,
-                PasswordHash = user.PasswordHash,
-                Role = user.Role.ToString(),
-                CreatedAt = user.CreatedAt,
-                UpdatedAt = user.UpdatedAt
-            };
+            var entity = user.ToEntity();
 
             _context.Add(entity);
             await _context.SaveChangesAsync(ct);
