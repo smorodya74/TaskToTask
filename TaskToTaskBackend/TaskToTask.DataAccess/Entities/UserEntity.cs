@@ -1,10 +1,9 @@
-﻿namespace TaskToTask.DAL.Entities
+﻿using TaskToTask.Application.Interfaces.Base;
+
+namespace TaskToTask.DAL.Entities
 {
-    public class UserEntity
+    public class UserEntity : IBaseEntityWithDates
     {
-        /// <summary>
-        /// Id пользователя
-        /// </summary>
         public Guid Id { get; init; }
         /// <summary>
         /// Username пользователя
@@ -22,13 +21,7 @@
         /// Роль пользователя (права доступа)
         /// </summary>
         public string Role { get; init; }
-        /// <summary>
-        /// Дата-время создания пользователя
-        /// </summary>
         public DateTime CreatedAt { get; init; }
-        /// <summary>
-        /// Дата-время обновления пользователя
-        /// </summary>
         public DateTime UpdatedAt { get; init; }
     }
 }

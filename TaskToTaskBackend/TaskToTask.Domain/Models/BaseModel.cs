@@ -1,8 +1,8 @@
 ﻿namespace TaskToTask.Domain.Models
 {
-    public abstract class BaseEntity
+    public abstract class BaseModel
     {
-        protected BaseEntity(Guid id)
+        protected BaseModel(Guid id)
         {
             this.Id = id;
         }

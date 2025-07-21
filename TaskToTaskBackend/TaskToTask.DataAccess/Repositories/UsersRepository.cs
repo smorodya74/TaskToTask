@@ -10,7 +10,10 @@ using TaskToTask.Domain.Models;
 namespace TaskToTask.DAL.Repositories
 {
     public class UsersRepository(TaskToTaskDbContext context) 
-        : IUsersRepositoryForAuth, IUsersRepositoryForAdmin, IUsersRepositoryForUsers
+        : BaseRepository<UserEntity>(context),
+        IUsersRepositoryForAuth,
+        IUsersRepositoryForAdmin,
+        IUsersRepositoryForUsers
     {
         private readonly TaskToTaskDbContext _context = context;
 
@@ -29,9 +32,9 @@ namespace TaskToTask.DAL.Repositories
                 UpdatedAt = user.UpdatedAt
             };
 
-            _context.Users.Add(entity);
+            _context.Add(entity);
             await _context.SaveChangesAsync(ct);
-
+            
             return entity.Id;
         }
 
@@ -84,7 +87,7 @@ namespace TaskToTask.DAL.Repositories
                 ("role", false) => query.OrderBy(u => u.Role),
                 ("role", true) => query.OrderByDescending(u => u.Role),
 
-                _ => query.OrderBy(u => u.Username) // default
+                _ => query.OrderBy(u => u.CreatedAt)
             };
 
             // Пагинация
@@ -104,16 +107,14 @@ namespace TaskToTask.DAL.Repositories
         }
 
 
-        public async Task<User> GetByIdAsync(Guid id, CancellationToken ct)
+        public async Task<User> GetByIdAsync(Guid userId, CancellationToken ct)
         {
-            var userEntity = await _context.Users
-                .AsNoTracking()
-                .FirstOrDefaultAsync(u => u.Id == id, ct)
-                ?? throw new NotFoundException(id.ToString());
-
-            var user = userEntity.ToDomain();
-
-            return user;
+            var entity = await _context.Users
+                             .AsNoTracking()
+                             .FirstOrDefaultAsync(e => e.Id == userId, ct)
+                         ?? throw new NotFoundException(userId.ToString());
+            
+            return entity.ToDomain();
         }
 
         public async Task<User> GetByEmailAsync(string email, CancellationToken ct)
@@ -154,7 +155,7 @@ namespace TaskToTask.DAL.Repositories
 
         #endregion
         #region EXISTS
-
+        
         public async Task<bool> ExistsByEmailAsync(string email, CancellationToken ct)
         {
             return await _context.Users
@@ -209,12 +210,11 @@ namespace TaskToTask.DAL.Repositories
         #endregion
         #region DELETE
 
-        public async Task DeleteAsync(Guid userId, CancellationToken ct)
+        public override async Task DeleteAsync(Guid userId, CancellationToken ct)
         {
-            await _context.Users
-                .Where(u => u.Id == userId)
-                .ExecuteDeleteAsync(ct);
+            await base.DeleteAsync(userId, ct);
         }
+        
         #endregion
     }
 }

@@ -2,7 +2,7 @@
 
 namespace TaskToTask.Domain.Models
 {
-    public class User : BaseEntityWithDates
+    public class User : BaseModelWithDates
     {
         /// <summary>
         /// Domain-модель User - пользователь

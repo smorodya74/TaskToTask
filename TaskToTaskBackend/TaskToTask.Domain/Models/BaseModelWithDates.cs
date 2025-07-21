@@ -1,8 +1,8 @@
 ﻿namespace TaskToTask.Domain.Models
 {
-    public abstract class BaseEntityWithDates : BaseEntity
+    public abstract class BaseModelWithDates : BaseModel
     {
-        protected BaseEntityWithDates(Guid id, DateTime createdAt, DateTime updatedAt) : base(id)
+        protected BaseModelWithDates(Guid id, DateTime createdAt, DateTime updatedAt) : base(id)
         {
             CreatedAt = createdAt;
             UpdatedAt = updatedAt;
@@ -22,7 +22,7 @@
         /// <summary>
         /// Обновить дату изменения
         /// </summary>
-        public virtual void Touch()
+        protected virtual void Touch()
         {
             UpdatedAt = DateTime.UtcNow;
         }
