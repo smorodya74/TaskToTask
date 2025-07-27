@@ -12,12 +12,10 @@ namespace TaskToTask.WebAPI.Controllers
     [Route("api/[controller]")]
     public class UsersController(IMediator mediator) : ControllerBase
     {
-        private readonly IMediator _mediator = mediator;
-
         [HttpGet("id={userId:guid}")]
         public async Task<ActionResult<UserResponse>> GetUserById(Guid userId, CancellationToken ct)
         {
-            var user = await _mediator.Send(new GetUserByIdQuery(userId), ct);
+            var user = await mediator.Send(new GetUserByIdQuery(userId), ct);
 
             var userResponse = new UserResponse(
                 UserId: user.Id.ToString(),
@@ -33,7 +31,7 @@ namespace TaskToTask.WebAPI.Controllers
         [HttpGet("username={username}")]
         public async Task<ActionResult<UserResponse>> GetUserByUsername(string username, CancellationToken ct)
         {
-            var user = await _mediator.Send(new GetUserByUsernameQuery(username), ct);
+            var user = await mediator.Send(new GetUserByUsernameQuery(username), ct);
 
             var userResponse = new UserResponse(
                 UserId: user.Id.ToString(),
@@ -49,7 +47,7 @@ namespace TaskToTask.WebAPI.Controllers
         [HttpGet("email={email}")]
         public async Task<ActionResult<UserResponse>> GetUserByEmail(string email, CancellationToken ct)
         {
-            var user = await _mediator.Send(new GetUserByEmailQuery(email), ct);
+            var user = await mediator.Send(new GetUserByEmailQuery(email), ct);
 
             var userResponse = new UserResponse(
                 UserId: user.Id.ToString(),
@@ -69,7 +67,7 @@ namespace TaskToTask.WebAPI.Controllers
             [FromBody] ChangeEmailRequest request, 
             CancellationToken ct)
         {
-            var resultMessage = await _mediator.Send(
+            var resultMessage = await mediator.Send(
                 new ChangeEmailCommand(userId, request.NewEmail), 
                 ct);
 
@@ -88,7 +86,7 @@ namespace TaskToTask.WebAPI.Controllers
             [FromBody] ChangePasswordRequest request, 
             CancellationToken ct)
         {
-            var resultMessage = await _mediator.Send(
+            var resultMessage = await mediator.Send(
                 new ChangePasswordCommand(userId, request.NewPassword, request.ConfirmNewPassword), 
                 ct);
 
@@ -97,8 +95,6 @@ namespace TaskToTask.WebAPI.Controllers
                 Message = resultMessage,
                 UserId = userId
             });
-            
-            // TODO: сделать валидацию полей
         }
     }
 }

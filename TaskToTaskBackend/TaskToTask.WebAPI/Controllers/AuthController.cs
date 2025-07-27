@@ -61,17 +61,9 @@ namespace TaskToTask.WebAPI.Controllers
             [FromServices] IUserContext userContext,
             CancellationToken ct)
         {
-            var user = await mediator.Send(new GetMeQuery(userContext.UserId), ct);
+            var userResponse = await mediator.Send(new GetMeQuery(userContext.UserId), ct);
 
-            var userResponse = new UserResponse(
-                UserId: user.Id.ToString(),
-                Username: user.Username,
-                Email: user.Email,
-                Role: user.Role.ToString(),
-                CreatedAt: user.CreatedAt,
-                UpdatedAt: user.UpdatedAt);
-
-            return Ok(userResponse);;
+            return Ok(userResponse);
         }
     }
 }

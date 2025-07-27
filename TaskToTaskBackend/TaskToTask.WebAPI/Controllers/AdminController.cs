@@ -13,9 +13,6 @@ namespace TaskToTask.WebAPI.Controllers
     [Route("[controller]/[action]")]
     public class AdminController(IMediator mediator) : ControllerBase
     {
-        private readonly IMediator _mediator = mediator;
-
-
         [HttpPut("{userId}/role")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> ChangeRole(
@@ -23,7 +20,7 @@ namespace TaskToTask.WebAPI.Controllers
             [FromBody] ChangeRoleRequest request, 
             CancellationToken ct)
         {
-            var resultMessage = await _mediator.Send(
+            var resultMessage = await mediator.Send(
                 new ChangeRoleCommand(userId, request.Role), 
                 ct);
 
@@ -39,7 +36,7 @@ namespace TaskToTask.WebAPI.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteUser([FromRoute] Guid userId, CancellationToken ct)
         {
-            var resultMeggase =  await _mediator.Send(new DeleteUserCommand(userId), ct);
+            var resultMeggase =  await mediator.Send(new DeleteUserCommand(userId), ct);
             
             return Ok(resultMeggase);
         }
@@ -63,7 +60,7 @@ namespace TaskToTask.WebAPI.Controllers
                 sortBy,
                 sortDescending);
 
-            var result = await _mediator.Send(query, ct);
+            var result = await mediator.Send(query, ct);
             return Ok(result);
         }
     }
