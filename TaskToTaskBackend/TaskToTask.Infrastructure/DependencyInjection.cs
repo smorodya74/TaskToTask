@@ -29,6 +29,7 @@ namespace TaskToTask.Infrastructure
             services.AddScoped<IUsersRepositoryForUsers, UsersRepository>();
             services.AddScoped<IUsersRepositoryForAuth, UsersRepository>();
             services.AddScoped<IUsersRepositoryForAdmin, UsersRepository>();
+            services.AddScoped<IBoardsRepository, BoardsRepository>();
 
             // Регистрируем вспомогательные сервисы
             services.AddScoped<IPasswordHasher, PasswordHasher>();

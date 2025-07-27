@@ -9,6 +9,7 @@ namespace TaskToTask.DAL
         public TaskToTaskDbContext(DbContextOptions<TaskToTaskDbContext> options) : base(options) { }
 
         public DbSet<UserEntity> Users { get; set; }
+        public DbSet<BoardEntity> Boards { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

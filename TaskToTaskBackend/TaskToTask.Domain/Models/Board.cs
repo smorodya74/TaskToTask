@@ -1,14 +1,14 @@
 ﻿namespace TaskToTask.Domain.Models
 {
-    public class Board : BaseEntityWithDates
+    public class Board : BaseModelWithDates
     {
         /// <summary>
-        /// Сущность Board
+        /// Domain-модель Board (доска с задачами)
         /// </summary>
-        public Board(
+        private Board(
             Guid id, 
             string title,
-            string description,
+            string? description,
             Guid userId, 
             DateTime createdAt, 
             DateTime updatedAt) : base(id, createdAt, updatedAt)
@@ -26,7 +26,7 @@
         /// <summary>
         /// Описание доски
         /// </summary>
-        public string Description { get; private set; }
+        public string? Description { get; private set; }
 
         /// <summary>
         /// Id автора доски
@@ -34,9 +34,9 @@
         public Guid UserId { get; private set; }
 
         /// <summary>
-        /// Создание сущности Board
+        /// Создание Domain-модель Board
         /// </summary>
-        /// <returns>Сущность Board</returns>
+        /// <returns>Domain-модель Board</returns>
         public static Board Create(
             string title,
             string description,
@@ -52,9 +52,9 @@
         }
 
         /// <summary>
-        /// Загружает сущность Board из базы данных
+        /// Загружает Domain-модель Board из базы данных
         /// </summary>
-        /// <returns>Сущность Board, загруженная из БД</returns>
+        /// <returns>Domain-модель Board, загруженная из БД</returns>
         public static Board LoadFromDb(
             Guid id,
             string title,
@@ -63,21 +63,16 @@
             DateTime createdAt,
             DateTime updatedAt)
         {
-            return new Board(
-                id,
-                title,
-                description,
-                userId,
-                createdAt,
-                updatedAt);
+            return new Board(id, title, description, userId, createdAt, updatedAt);
         }
 
         /// <summary>
         /// Обновляет название доски
         /// </summary>
-        public void Rename(string newTitle)
+        public void UpdateTitle(string newTitle)
         {
             Title = newTitle;
+            Touch();
         }
 
         /// <summary>
@@ -86,6 +81,7 @@
         public void UpdateDescription(string newDescription)
         {
             Description = newDescription;
+            Touch();
         }
     }
 }

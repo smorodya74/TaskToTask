@@ -17,4 +17,8 @@
     <ProjectReference Include="..\TaskToTask.Domain\TaskToTask.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="MediatR\Boards\Queries\Handlers\" />
+  </ItemGroup>
+
 </Project>

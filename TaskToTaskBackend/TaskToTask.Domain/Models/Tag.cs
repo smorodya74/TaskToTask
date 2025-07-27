@@ -1,9 +1,9 @@
 ﻿namespace TaskToTask.Domain.Models
 {
-    internal class Tag : BaseEntity
+    internal class Tag : BaseModel
     {
         /// <summary>
-        /// Сущность Tag
+        /// Сущность Tag (ярлык)
         /// </summary>
         private Tag(
             Guid id,
