@@ -29,13 +29,8 @@ export default function Sidebar() {
     const pathname = usePathname();
     return (
         <aside className={`h-screen bg-gray-900 text-white flex flex-col transition-all duration-300 ${isCollapsed ? "w-20" : "w-64"}`}>
-            <div className="p-4 border-b border-gray-700 flex items-center gap-2">
-                <Image
-                    src="/logo.svg"
-                    alt="logo"
-                    width={48}
-                    height={48}
-                />
+            <div className="h-20 border-b border-gray-700 flex items-center gap-2 px-4">
+                <Image src="/logo.svg" alt="logo" width={48} height={48} />
                 {!isCollapsed && <span className="text-xl font-bold">TaskToTask</span>}
             </div>
             <nav className="flex-1 p-2 space-y-2">
@@ -64,7 +59,7 @@ export default function Sidebar() {
                 className="flex items-center justify-center h-12 p-0"
                 onClick={() => setIsCollapsed(!isCollapsed)}
             >
-                <ArrowBackIosOutlinedIcon />
+                {(isCollapsed) ? <ArrowForwardIosOutlinedIcon /> : <ArrowBackIosOutlinedIcon />}
             </Button>
         </aside>
     );
