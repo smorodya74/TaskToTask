@@ -10,18 +10,17 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="min-h-screen flex bg-background text-foreground">
-  {/* === Sidebar слева === */}
-  <Sidebar />
+        {/* === Sidebar слева === */}
+        <Sidebar />
 
-  {/* === Контейнер справа (Header + Main) === */}
-  <div className="flex-1 flex flex-col">
-    <Header />
-    <main className="flex-1 p-6 bg-muted">
-      Hello
-    </main>
-  </div>
-</body>
-
+        {/* === Контейнер справа (Header + Main) === */}
+        <div className="flex-1 flex flex-col">
+          <Header />
+          <main className="flex-1 p-6 bg-muted">
+            {children}
+          </main>
+        </div>
+      </body>
     </html>
   );
 }
