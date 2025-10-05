@@ -45,23 +45,26 @@ export default function Sidebar() {
                         <Link
                             key={item.href}
                             href={item.href}
-                            className={`flex items-center 
-                                ${isCollapsed ? "justify-center" : "gap-2 px-4"} py-2 rounded-md transition 
+                            className={`flex items-center px-4 py-2 rounded-md transition 
                                 ${isActive ? "bg-gray-700" : "hover:bg-gray-800"}`}
                         >
                             {item.icon}
-                            {!isCollapsed && <span>{item.label}</span>}
+                            <span
+                                className={`ml-2 transition-all duration-300 overflow-hidden whitespace-nowrap 
+                                    ${isCollapsed ? "w-0 opacity-0" : "w-auto opacity-100"}`}
+                            >
+                                {item.label}
+                            </span>
                         </Link>
                     );
                 })}
             </nav>
-            <span></span>
             <Button
                 variant="outlined"
                 className="flex items-center justify-center h-12 p-0"
                 onClick={() => setIsCollapsed(!isCollapsed)}
             >
-                <ArrowBackIosOutlinedIcon/>
+                <ArrowBackIosOutlinedIcon />
             </Button>
         </aside>
     );
