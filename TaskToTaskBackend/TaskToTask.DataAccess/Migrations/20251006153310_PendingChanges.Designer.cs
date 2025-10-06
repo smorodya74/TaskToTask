@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TaskToTask.DAL;
@@ -11,9 +12,11 @@ using TaskToTask.DAL;
 namespace TaskToTask.DAL.Migrations
 {
     [DbContext(typeof(TaskToTaskDbContext))]
-    partial class TaskToTaskDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251006153310_PendingChanges")]
+    partial class PendingChanges
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
