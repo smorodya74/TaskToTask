@@ -10,6 +10,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="min-h-screen flex bg-background text-foreground">
+
         {/* === Sidebar слева === */}
         <Sidebar />
 

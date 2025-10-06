@@ -29,7 +29,7 @@ export default function Sidebar() {
     const pathname = usePathname();
     return (
         <aside className={`h-screen bg-gray-900 text-white flex flex-col transition-all duration-300 ${isCollapsed ? "w-20" : "w-64"}`}>
-            <div className="h-20 border-b border-gray-700 flex items-center gap-2 px-4">
+            <div className="h-20  flex items-center gap-2 px-4 border-b-2 border-gray-700">
                 <Image src="/logo.svg" alt="logo" width={48} height={48} />
                 {!isCollapsed && <span className="text-xl font-bold">TaskToTask</span>}
             </div>
